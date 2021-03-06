@@ -61,3 +61,21 @@ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scr
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
+
+```
+helm repo add k8ssandra https://helm.k8ssandra.io/stable
+helm repo update
+```
+
+```
+helm install -f k8ssandra.yaml k8ssandra k8ssandra/k8ssandra
+```
+
+```
+kubectl get cassandradatacenters
+
+kubectl describe CassandraDataCenter dc1
+```
+
+
+
