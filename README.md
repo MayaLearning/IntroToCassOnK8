@@ -74,6 +74,12 @@ helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
 ```
 
+```bash 
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install traefik traefik/traefik -f traefik.yaml
+```
+
 ```bash
 kubectl get pods --all-namespaces
 wget https://openebs.github.io/charts/openebs-operator.yaml
