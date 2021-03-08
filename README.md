@@ -63,22 +63,48 @@ For further reading and labs go to
 [link name](URL) 
 
 
-```
+```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
-```
+```bash
 helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
 ```
 
+```bash
+kubectl get pods --all-namespaces
+wget https://openebs.github.io/charts/openebs-operator.yaml
+kubectl apply -f openebs-operator.yaml
+kubectl get pods --all-namespaces
+kubectl get blockdevice -n openebs
+kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
+kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
+kubectl apply -f local-device-sc.yaml
+kubectl get sc local-device
+wget https://openebs.github.io/charts/examples/local-device/local-device-pvc.yaml
+kubectl apply -f local-device-pvc.yaml
+wget https://openebs.github.io/charts/examples/local-device/local-device-pod.yaml
+kubectl apply -f local-device-pod.yaml
 ```
+
+
+```bash
+kubectl get pod hello-local-device-pod
+kubectl get pvc local-device-pvc
+kubectl get sc local-device
+```
+
+
+
+
+```bash
 helm install -f k8ssandra.yaml k8ssandra k8ssandra/k8ssandra
 ```
 
-```
+```bash
 kubectl get cassandradatacenters
 
 kubectl describe CassandraDataCenter dc1
