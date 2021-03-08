@@ -1,7 +1,7 @@
 cassandra:
   version: "3.11.10"
   cassandraLibDirVolume:
-    storageClass: TODOCHANGE
+    storageClass: local-device
     size: 5Gi
   heap:
    size: 1G
