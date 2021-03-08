@@ -92,13 +92,10 @@ kubectl apply -f local-device-sc.yaml
 kubectl get sc local-device
 wget https://openebs.github.io/charts/examples/local-device/local-device-pvc.yaml
 kubectl apply -f local-device-pvc.yaml
-wget https://openebs.github.io/charts/examples/local-device/local-device-pod.yaml
-kubectl apply -f local-device-pod.yaml
 ```
 
 
 ```bash
-kubectl get pod hello-local-device-pod
 kubectl get pvc local-device-pvc
 kubectl get sc local-device
 ```
