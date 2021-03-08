@@ -1,0 +1,57 @@
+cassandra:
+  version: "3.11.10"
+  cassandraLibDirVolume:
+    storageClass: TODOCHANGE
+    size: 5Gi
+  heap:
+   size: 1G
+   newGenSize: 1G
+  resources:
+    requests:
+      cpu: 1000m
+      memory: 2Gi
+    limits:
+      cpu: 1000m
+      memory: 2Gi
+  datacenters:
+  - name: dc1
+    size: 1
+    racks:
+    - name: default
+stargate:
+  enabled: true
+  replicas: 1
+  heapMB: 256
+  cpuReqMillicores: 200
+  cpuLimMillicores: 1000
+  ingress:
+    enabled: true
+reaper:
+  autoschedule: false
+  enabled: true
+  ingress:
+    enabled: true
+    host: repair.<YOURADDRESS>
+    method: traefik
+    traefik:
+      entrypoint: web
+kube-prometheus-stack:
+  prometheus:
+    prometheusSpec:
+      externalUrl: http://<YOURADDRESS>:8080/prometheus
+      routePrefix: /prometheus
+    ingress:
+      enabled: true
+      paths:
+        - /prometheus
+  grafana:
+    adminPassword: admin
+    ingress:
+      enabled: true
+      path: /grafana
+    plugins:
+      - grafana-polystat-panel
+    grafana.ini:
+      server:
+        root_url: http://<YOURADDRESS>:8080/grafana
+        serve_from_sub_path: true
