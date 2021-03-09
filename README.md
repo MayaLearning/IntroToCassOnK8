@@ -85,9 +85,15 @@ kubectl get pods --all-namespaces
 wget https://openebs.github.io/charts/openebs-operator.yaml
 kubectl apply -f openebs-operator.yaml
 kubectl get pods --all-namespaces
+```
+
+```bash
 kubectl get blockdevice -n openebs
 kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
 kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
+```
+
+```bash
 kubectl apply -f local-device-sc.yaml
 kubectl get sc local-device
 wget https://openebs.github.io/charts/examples/local-device/local-device-pvc.yaml
