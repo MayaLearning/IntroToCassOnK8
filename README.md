@@ -25,7 +25,8 @@ Everywhere in this repo you see `<YOURADDRESS>` replace with the URL for the ins
 | **1 - Getting Connected** | [Instructions](#1-Getting-Connected)  |
 | **2 - Setting Up Storage** | [Instructions](#Setting-Up-Storage)  |
 | **3 - Setting Up Cassandra** | [Instructions](#Setting-Up-Cassandra)  |
-| **4 - Resources** | [Instructions](#Resources)  |
+| **4 - Connecting To Cassandra** | [Instructions](#Connecting-To-Cassandra)  |
+| **5 - Resources** | [Instructions](#Resources)  |
 
 ## 1. Getting Connected
 **✅ Step 1a: The first step in the section.**
@@ -56,6 +57,7 @@ If you see the above output you are ready for the lab.
 
 ## 2. Setting Up Storage
 
+**✅ Step 2a: Setting Up Block Devices.**
 ```bash
 kubectl get pods --all-namespaces
 ```
@@ -75,37 +77,50 @@ kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=lear
 ```bash
 kubectl apply -f local-device-sc.yaml
 kubectl get sc local-device
+```
+
+
+**✅ Step 2b: Setting Up PVC.**
+```bash
 wget https://openebs.github.io/charts/examples/local-device/local-device-pvc.yaml
 kubectl apply -f local-device-pvc.yaml
 ```
 
+
+**✅ Step 2b: Verify Config**
 
 ```bash
 kubectl get pvc local-device-pvc
 kubectl get sc local-device
 ```
 
+## 3. Setting Up Cassandra
 
-
-## 2. Setting Up Cassandra
-
+**✅ Step 3a: Install Helm**
 ```bash
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
+**✅ Step 3b: Add the K8ssandra repo**
 ```bash
 helm repo add k8ssandra https://helm.k8ssandra.io/stable
 helm repo update
 ```
 
+**✅ Step 3c: Setup the Ingress**
 ```bash 
 helm repo add traefik https://helm.traefik.io/traefik
 helm repo update
 helm install traefik traefik/traefik -f traefik.yaml
 ```
 
+**✅ Step 3d: configure the k8ssandra.yaml**
+Open the file in the browser and add in your IP address where it says <YOURADDRESS>
+  
+
+**✅ Step 3e: Install the Cassandra Cluster**
 ```bash
 helm install -f k8ssandra.yaml k8ssandra k8ssandra/k8ssandra
 ```
@@ -116,12 +131,28 @@ kubectl get cassandradatacenters
 kubectl describe CassandraDataCenter dc1
 ```
 
+## 4. Connecting To Cassandra
 
-## 2. Part 2
+**✅ Step 4a: Retreave the Cluster username**
+```bash
+kubectl get secret k8ssandra-superuser -o jsonpath="{.data.username}" | base64 --decode
+```
 
-**✅ Step 2a: The first step in the section.**
-**✅ Step 2b: Second step in the section**
+**✅ Step 4b: Retreave the Cluster password**
+```bash
+kubectl get secret k8ssandra-superuser -o jsonpath="{.data.password}" | base64 --decode
+```
 
-## 3. Resources
+**✅ Step 4c: Install the Cassandra driver**
+
+```bash
+sudo pip3 install cassandra-driver
+```
+
+**✅ Step 4d: Setting Up Our CRUD**
+
+
+
+## 5. Resources
 For further reading and labs go to 
 [link name](URL) 
