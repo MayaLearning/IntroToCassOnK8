@@ -23,8 +23,9 @@ Everywhere in this repo you see `<YOURADDRESS>` replace with the URL for the ins
 | Title  | Description
 |---|---|
 | **1 - Getting Connected** | [Instructions](#1-Getting-Connected)  |
-| **2 - Part 2** | [Instructions](#Part-2)  |
-| **3 - Resources** | [Instructions](#Resources)  |
+| **2 - Setting Up Storage** | [Instructions](#Setting-Up-Storage)  |
+| **3 - Setting Up Cassandra** | [Instructions](#Setting-Up-Cassandra)  |
+| **4 - Resources** | [Instructions](#Resources)  |
 
 ## 1. Getting Connected
 **✅ Step 1a: The first step in the section.**
@@ -53,35 +54,13 @@ ubuntu@learning-cluster-master:~/workshop$
 ```
 If you see the above output you are ready for the lab.
 
-## 2. Part 2
-
-**✅ Step 2a: The first step in the section.**
-**✅ Step 2b: Second step in the section**
-
-## 3. Resources
-For further reading and labs go to 
-[link name](URL) 
-
-
-```bash
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
-```
-
-```bash
-helm repo add k8ssandra https://helm.k8ssandra.io/stable
-helm repo update
-```
-
-```bash 
-helm repo add traefik https://helm.traefik.io/traefik
-helm repo update
-helm install traefik traefik/traefik -f traefik.yaml
-```
+## 2. Setting Up Storage
 
 ```bash
 kubectl get pods --all-namespaces
+```
+
+```bash
 wget https://openebs.github.io/charts/openebs-operator.yaml
 kubectl apply -f openebs-operator.yaml
 kubectl get pods --all-namespaces
@@ -108,6 +87,24 @@ kubectl get sc local-device
 
 
 
+## 2. Setting Up Cassandra
+
+```bash
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+```
+
+```bash
+helm repo add k8ssandra https://helm.k8ssandra.io/stable
+helm repo update
+```
+
+```bash 
+helm repo add traefik https://helm.traefik.io/traefik
+helm repo update
+helm install traefik traefik/traefik -f traefik.yaml
+```
 
 ```bash
 helm install -f k8ssandra.yaml k8ssandra k8ssandra/k8ssandra
@@ -120,4 +117,11 @@ kubectl describe CassandraDataCenter dc1
 ```
 
 
+## 2. Part 2
 
+**✅ Step 2a: The first step in the section.**
+**✅ Step 2b: Second step in the section**
+
+## 3. Resources
+For further reading and labs go to 
+[link name](URL) 
