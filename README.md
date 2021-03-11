@@ -1,10 +1,7 @@
-# TITLE HERE
+# Intro to Cassandra On Kubernetes
 
-##  DISCRIPTION HERE
-This is a discription of the cool stuff we are going to do in the session today
-
-Banner
-<img src="https://user-images.githubusercontent.com/blah/blahblah.png" width=“700” />
+##  Learning Workshop
+In this session we will be taking a look at running a distributed system on top of another distributed system while using persistant storage to make sure our data stays in tact. 
 
 ## Before starting
 Workshop attendees will receave an email with the instance info prior to the workshop.
@@ -14,11 +11,7 @@ Notice that training cloud instances will be available only during the workshop 
 **⚡ IMPORTANT NOTE:**
 Everywhere in this repo you see `<YOURADDRESS>` replace with the URL for the instance you were given.  
 
-## Table of content and resources
-
-* [Workshop On YouTube](YOUTUBE LINK HERE)
-* [Presentation](PDF OF SLIDES HERE)
-* [Discord chat](DISCORD LINK HERE)
+## Table of content 
 
 | Title  | Description
 |---|---|
