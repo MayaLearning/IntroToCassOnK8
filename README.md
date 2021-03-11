@@ -73,17 +73,9 @@ kubectl get sc local-device
 ```
 
 
-**✅ Step 2b: Setting Up PVC.**
-```bash
-wget https://openebs.github.io/charts/examples/local-device/local-device-pvc.yaml
-kubectl apply -f local-device-pvc.yaml
-```
-
-
 **✅ Step 2b: Verify Config**
 
 ```bash
-kubectl get pvc local-device-pvc
 kubectl get sc local-device
 ```
 
