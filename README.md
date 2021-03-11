@@ -149,10 +149,22 @@ kubectl get secret k8ssandra-superuser -o jsonpath="{.data.password}" | base64 -
 sudo pip3 install cassandra-driver
 ```
 
-**✅ Step 4d: Setting Up Our CRUD**
+**✅ Step 4d: Testing our database**
+```bash
+kubectl exec --stdin --tty k8ssandra-dc1-default-sts-0 -- /bin/bash
+cqlsh -u YOURUSERNAME -p YOURPASSWORD
+```
 
-
+**✅ Step 4e: Insert Data**
+```bash
+CREATE KEYSPACE test WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'dc1' : 3 };
+CREATE TABLE test.users (username text, name text, age int, PRIMARY KEY(username));
+INSERT INTO test.users(username,name,age) VALUES ('EricZ','Eric Zietlow',67);
+```
 
 ## 5. Resources
-For further reading and labs go to 
-[link name](URL) 
+For further reading go to the [OpenEBS Docs](https://docs.openebs.io/) 
+Check out our new Discord server [Invite](https://discord.gg/kkDTVQwJSN) 
+Get into more with the Data On Kubernetes Community [DOKc](https://dok.community/)
+For the K8ssandra Project [k8ssandra.io](k8ssandra.io)
+Many more workshops to come so Please subscribe to the YouTube Channel to be notified. 
