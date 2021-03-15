@@ -304,6 +304,10 @@ This will bring you into the CQLSH prompt where you can directly interact with t
 *📃output*
 
 ```bash
+Connected to k8ssandra at 127.0.0.1:9042.
+[cqlsh 5.0.1 | Cassandra 3.11.10 | CQL spec 3.4.4 | Native protocol v4]
+Use HELP for help.
+k8ssandra-superuser@cqlsh> 
 ```
 
 **✅ Step 4d: Insert Data**
@@ -317,6 +321,9 @@ SELECT * FROM test.users;
 *📃output*
 
 ```bash
+ username | age | name
+----------+-----+--------------
+    EricZ |  67 | Eric Zietlow
 ```
 
 ## 5. Resources
