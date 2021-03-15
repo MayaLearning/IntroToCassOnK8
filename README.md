@@ -4,7 +4,7 @@
 In this session we will be taking a look at running a distributed system on top of another distributed system while using persistant storage to make sure our data stays in tact. 
 
 ## Before starting
-Workshop attendees will receave an email with the instance info prior to the workshop.
+Workshop attendees will be able to message Prasson in discord for a training instance.
 
 Notice that training cloud instances will be available only during the workshop and will be terminated **24 hours later**. If you are in our workshop we recommend using the provided cloud instance, you can relax as we have you covered: prerequisites are installed already.
 
@@ -24,7 +24,7 @@ Everywhere in this repo you see `<YOURADDRESS>` replace with the URL for the ins
 ## 1. Getting Connected
 **✅ Step 1a: The first step in the section.**
 
-In your browser window, navigate to the url <YOURADDRESS>:3000 where your address is the one emailed to you before the session.
+In your browser window, navigate to the url <YOURADDRESS>:3000 where your address is the one provided by Prasson.
   
 When you arrive at the webpage you should be greeted by something similar to this.
 <img src="https://user-images.githubusercontent.com/1936716/107884421-a23fe180-6eba-11eb-96d2-4c703ccb1dcf.png" width=“700” />
@@ -51,9 +51,19 @@ If you see the above output you are ready for the lab.
 ## 2. Setting Up Storage
 
 **✅ Step 2a: Setting Up Block Devices.**
+
+Show the current pods that are running.
+
 ```bash
 kubectl get pods --all-namespaces
 ```
+
+*📃output*
+
+```bash
+```
+
+Install OpenEBS
 
 ```bash
 wget https://openebs.github.io/charts/openebs-operator.yaml
@@ -61,11 +71,25 @@ kubectl apply -f openebs-operator.yaml
 kubectl get pods --all-namespaces
 ```
 
+*📃output*
+
+```bash
+```
+
+For each blockdevice listed you will need to add the learning tag so that it can be consumed as a resource by our pods. 
+
 ```bash
 kubectl get blockdevice -n openebs
 kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
 kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
 ```
+
+*📃output*
+
+```bash
+```
+
+Setup the storage class.
 
 ```bash
 kubectl apply -f local-device-sc.yaml
@@ -73,11 +97,19 @@ kubectl get sc local-device
 ```
 
 
-**✅ Step 2b: Verify Config**
+Verify storage class.
+
 
 ```bash
 kubectl get sc local-device
 ```
+
+
+*📃output*
+
+```bash
+```
+
 
 ## 3. Setting Up Cassandra
 
@@ -102,7 +134,8 @@ helm install traefik traefik/traefik -f traefik.yaml
 ```
 
 **✅ Step 3d: configure the k8ssandra.yaml**
-Open the file in the browser and add in your IP address where it says <YOURADDRESS>
+
+Open the file in the browser and add in your IP address where it says `<YOURADDRESS>`
   
 
 **✅ Step 3e: Install the Cassandra Cluster**
@@ -112,9 +145,24 @@ helm install -f k8ssandra.yaml k8ssandra k8ssandra/k8ssandra
 
 ```bash
 kubectl get cassandradatacenters
+```
 
+
+*📃output*
+
+```bash
+```
+
+```bash
 kubectl describe CassandraDataCenter dc1
 ```
+
+
+*📃output*
+
+```bash
+```
+
 
 ## 4. Connecting To Cassandra
 
@@ -123,10 +171,27 @@ kubectl describe CassandraDataCenter dc1
 kubectl get secret k8ssandra-superuser -o jsonpath="{.data.username}" | base64 --decode
 ```
 
+Your output should look something like this.
+
+
+*📃output*
+
+```bash
+```
+
+
 **✅ Step 4b: Retreave the Cluster password**
 ```bash
 kubectl get secret k8ssandra-superuser -o jsonpath="{.data.password}" | base64 --decode
 ```
+Your output should look something like this.
+
+
+*📃output*
+
+```bash
+```
+
 
 **✅ Step 4c: Install the Cassandra driver**
 
@@ -139,12 +204,23 @@ sudo pip3 install cassandra-driver
 kubectl exec --stdin --tty k8ssandra-dc1-default-sts-0 -- /bin/bash
 cqlsh -u YOURUSERNAME -p YOURPASSWORD
 ```
+This will bring you into the CQLSH prompt where you can directly interact with the database.
+*📃output*
+
+```bash
+```
 
 **✅ Step 4e: Insert Data**
 ```bash
 CREATE KEYSPACE test WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'dc1' : 3 };
 CREATE TABLE test.users (username text, name text, age int, PRIMARY KEY(username));
 INSERT INTO test.users(username,name,age) VALUES ('EricZ','Eric Zietlow',67);
+SELECT * FROM test.users;
+```
+
+*📃output*
+
+```bash
 ```
 
 ## 5. Resources
