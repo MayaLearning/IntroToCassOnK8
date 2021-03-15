@@ -166,6 +166,15 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 ```
 
+*📃output*
+
+```bash
+Downloading https://get.helm.sh/helm-v3.5.3-linux-amd64.tar.gz
+Verifying checksum... Done.
+Preparing to install helm into /usr/local/bin
+helm installed into /usr/local/bin/helm
+```
+
 **✅ Step 3b: Add the K8ssandra repo**
 ```bash
 helm repo add k8ssandra https://helm.k8ssandra.io/stable
@@ -179,6 +188,17 @@ helm repo update
 helm install traefik traefik/traefik -f traefik.yaml
 ```
 
+*📃output*
+
+```bash
+NAME: traefik
+LAST DEPLOYED: Mon Mar 15 15:54:45 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+```
+
 **✅ Step 3d: configure the k8ssandra.yaml**
 
 Open the file in the browser and add in your IP address where it says `<YOURADDRESS>`
@@ -189,14 +209,26 @@ Open the file in the browser and add in your IP address where it says `<YOURADDR
 helm install -f k8ssandra.yaml k8ssandra k8ssandra/k8ssandra
 ```
 
-```bash
-kubectl get cassandradatacenters
-```
-
 
 *📃output*
 
 ```bash
+NAME: k8ssandra
+LAST DEPLOYED: Mon Mar 15 15:55:46 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+```
+
+```bash
+kubectl get cassandradatacenters
+```
+
+*📃output*
+
+```bash
+NAME   AGE
+dc1    98s
 ```
 
 ```bash
@@ -207,6 +239,29 @@ kubectl describe CassandraDataCenter dc1
 *📃output*
 
 ```bash
+Name:         dc1
+Namespace:    default
+Labels:       app.kubernetes.io/instance=k8ssandra
+              app.kubernetes.io/managed-by=Helm
+              app.kubernetes.io/name=k8ssandra
+              app.kubernetes.io/part-of=k8ssandra-k8ssandra-default
+              helm.sh/chart=k8ssandra-1.0.0
+Annotations:  meta.helm.sh/release-name: k8ssandra
+              meta.helm.sh/release-namespace: default
+              reaper.cassandra-reaper.io/instance: k8ssandra-reaper
+API Version:  cassandra.datastax.com/v1beta1
+Kind:         CassandraDatacenter
+...
+Events:
+  Type    Reason             Age                From           Message
+  ----    ------             ----               ----           -------
+  Normal  CreatedResource    95s                cass-operator  Created service k8ssandra-dc1-service
+  Normal  CreatedResource    95s                cass-operator  Created service k8ssandra-seed-service
+  Normal  CreatedResource    95s                cass-operator  Created service k8ssandra-dc1-all-pods-service
+  Normal  CreatedResource    87s                cass-operator  Created statefulset k8ssandra-dc1-default-sts
+  Normal  ScalingUpRack      87s (x2 over 87s)  cass-operator  Scaling up rack default
+  Normal  LabeledPodAsSeed   31s                cass-operator  Labeled pod a seed node k8ssandra-dc1-default-sts-0
+  Normal  StartingCassandra  26s                cass-operator  Starting Cassandra for pod k8ssandra-dc1-default-sts-0
 ```
 
 
@@ -223,6 +278,7 @@ Your output should look something like this.
 *📃output*
 
 ```bash
+k8ssandra-superuser
 ```
 
 
@@ -236,16 +292,10 @@ Your output should look something like this.
 *📃output*
 
 ```bash
+xvKAjJ5CO9F2LOthC5GT
 ```
 
-
-**✅ Step 4c: Install the Cassandra driver**
-
-```bash
-sudo pip3 install cassandra-driver
-```
-
-**✅ Step 4d: Testing our database**
+**✅ Step 4c: Testing our database**
 ```bash
 kubectl exec --stdin --tty k8ssandra-dc1-default-sts-0 -- /bin/bash
 cqlsh -u YOURUSERNAME -p YOURPASSWORD
@@ -256,7 +306,7 @@ This will bring you into the CQLSH prompt where you can directly interact with t
 ```bash
 ```
 
-**✅ Step 4e: Insert Data**
+**✅ Step 4d: Insert Data**
 ```bash
 CREATE KEYSPACE test WITH REPLICATION = { 'class' : 'NetworkTopologyStrategy', 'dc1' : 3 };
 CREATE TABLE test.users (username text, name text, age int, PRIMARY KEY(username));
