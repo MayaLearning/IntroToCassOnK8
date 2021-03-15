@@ -225,7 +225,11 @@ SELECT * FROM test.users;
 
 ## 5. Resources
 For further reading go to the [OpenEBS Docs](https://docs.openebs.io/) 
+
 Check out our new Discord server [Invite](https://discord.gg/kkDTVQwJSN) 
+
 Get into more with the Data On Kubernetes Community [DOKc](https://dok.community/)
+
 For the K8ssandra Project [k8ssandra.io](k8ssandra.io)
+
 Many more workshops to come so Please subscribe to the YouTube Channel to be notified. 
