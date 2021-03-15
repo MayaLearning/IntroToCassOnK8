@@ -61,6 +61,19 @@ kubectl get pods --all-namespaces
 *📃output*
 
 ```bash
+NAMESPACE     NAME                                                READY   STATUS    RESTARTS   AGE
+kube-system   coredns-f9fd979d6-pbs8m                             1/1     Running   0          10m
+kube-system   coredns-f9fd979d6-wzcgn                             1/1     Running   0          10m
+kube-system   etcd-learning-cluster-0-master                      1/1     Running   0          10m
+kube-system   kube-apiserver-learning-cluster-0-master            1/1     Running   0          10m
+kube-system   kube-controller-manager-learning-cluster-0-master   1/1     Running   0          10m
+kube-system   kube-flannel-ds-cvjvp                               1/1     Running   0          3m
+kube-system   kube-flannel-ds-xflrq                               1/1     Running   0          3m
+kube-system   kube-flannel-ds-xw4m9                               1/1     Running   0          3m
+kube-system   kube-proxy-9rzw4                                    1/1     Running   0          3m7s
+kube-system   kube-proxy-jns28                                    1/1     Running   0          3m8s
+kube-system   kube-proxy-mjgqj                                    1/1     Running   0          10m
+kube-system   kube-scheduler-learning-cluster-0-master            1/1     Running   0          10m
 ```
 
 Install OpenEBS
@@ -74,12 +87,44 @@ kubectl get pods --all-namespaces
 *📃output*
 
 ```bash
+NAMESPACE     NAME                                                READY   STATUS              RESTARTS   AGE
+kube-system   coredns-f9fd979d6-pbs8m                             1/1     Running             0          10m
+kube-system   coredns-f9fd979d6-wzcgn                             1/1     Running             0          10m
+kube-system   etcd-learning-cluster-0-master                      1/1     Running             0          11m
+kube-system   kube-apiserver-learning-cluster-0-master            1/1     Running             0          11m
+kube-system   kube-controller-manager-learning-cluster-0-master   1/1     Running             0          11m
+kube-system   kube-flannel-ds-cvjvp                               1/1     Running             0          3m23s
+kube-system   kube-flannel-ds-xflrq                               1/1     Running             0          3m23s
+kube-system   kube-flannel-ds-xw4m9                               1/1     Running             0          3m23s
+kube-system   kube-proxy-9rzw4                                    1/1     Running             0          3m30s
+kube-system   kube-proxy-jns28                                    1/1     Running             0          3m31s
+kube-system   kube-proxy-mjgqj                                    1/1     Running             0          10m
+kube-system   kube-scheduler-learning-cluster-0-master            1/1     Running             0          11m
+openebs       maya-apiserver-747fbf7f89-vgs86                     0/1     ContainerCreating   0          2s
+openebs       openebs-admission-server-555b957648-dwls5           0/1     ContainerCreating   0          1s
+openebs       openebs-localpv-provisioner-7d7c74fbbb-c78js        0/1     ContainerCreating   0          1s
+openebs       openebs-ndm-4tcxw                                   0/1     ContainerCreating   0          1s
+openebs       openebs-ndm-kbxdq                                   0/1     ContainerCreating   0          1s
+openebs       openebs-ndm-operator-6bd5949967-66zw6               0/1     ContainerCreating   0          1s
+openebs       openebs-provisioner-cd9474fb8-rvdj6                 0/1     ContainerCreating   0          2s
+openebs       openebs-snapshot-operator-897d78956-2k8qq           0/2     ContainerCreating   0          2s
 ```
 
 For each blockdevice listed you will need to add the learning tag so that it can be consumed as a resource by our pods. 
 
 ```bash
 kubectl get blockdevice -n openebs
+```
+
+*📃output*
+
+```bash
+NAME                                           NODENAME                      SIZE          CLAIMSTATE   STATUS   AGE
+blockdevice-6073c1a6970805a0c5f63b04dedb1f5b   learning-cluster-0-worker-0   75000000000   Unclaimed    Active   19s
+blockdevice-6dcd4d6f4ff6be74c0b5fb0517244b53   learning-cluster-0-worker-1   75000000000   Unclaimed    Active   19s
+```
+
+```bash
 kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
 kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=learning
 ```
@@ -87,15 +132,15 @@ kubectl label bd -n openebs BLOCKDEVICENAMEHERE openebs.io/block-device-tag=lear
 *📃output*
 
 ```bash
+blockdevice.openebs.io/blockdevice-6073c1a6970805a0c5f63b04dedb1f5b labeled
+blockdevice.openebs.io/blockdevice-6dcd4d6f4ff6be74c0b5fb0517244b53 labeled
 ```
 
 Setup the storage class.
 
 ```bash
 kubectl apply -f local-device-sc.yaml
-kubectl get sc local-device
 ```
-
 
 Verify storage class.
 
@@ -104,10 +149,11 @@ Verify storage class.
 kubectl get sc local-device
 ```
 
-
 *📃output*
 
 ```bash
+NAME           PROVISIONER        RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+local-device   openebs.io/local   Delete          WaitForFirstConsumer   false                  1s
 ```
 
 
