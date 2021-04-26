@@ -298,7 +298,7 @@ xvKAjJ5CO9F2LOthC5GT
 **✅ Step 4c: Testing our database**
 ```bash
 kubectl exec --stdin --tty k8ssandra-dc1-default-sts-0 -- /bin/bash
-cqlsh -u YOURUSERNAME -p YOURPASSWORD
+cqlsh -u YOURUSERNAME -pYOURPASSWORD
 ```
 This will bring you into the CQLSH prompt where you can directly interact with the database.
 *📃output*
