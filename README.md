@@ -267,7 +267,7 @@ Events:
 
 ## 4. Connecting To Cassandra
 
-**✅ Step 4a: Retreave the Cluster username**
+**✅ Step 4a: Retrieve the Cluster username**
 ```bash
 kubectl get secret k8ssandra-superuser -o jsonpath="{.data.username}" | base64 --decode
 ```
@@ -282,7 +282,7 @@ k8ssandra-superuser
 ```
 
 
-**✅ Step 4b: Retreave the Cluster password**
+**✅ Step 4b: Retrieve the Cluster password**
 ```bash
 kubectl get secret k8ssandra-superuser -o jsonpath="{.data.password}" | base64 --decode
 ```
